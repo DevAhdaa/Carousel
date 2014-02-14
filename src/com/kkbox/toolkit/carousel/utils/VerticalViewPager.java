@@ -114,7 +114,6 @@ public class VerticalViewPager extends ViewGroup {
     
     private boolean mIsBeingDragged;
     private boolean mIsUnableToDrag;
-    private boolean mIgnoreGutter;
     private int mDefaultGutterSize;
     private int mGutterSize;
     private int mTouchSlop;
@@ -143,7 +142,6 @@ public class VerticalViewPager extends ViewGroup {
     private EdgeEffectCompat mBottomEdge;
 
     private boolean mFirstLayout = true;
-    private boolean mNeedCalculatePageOffsets = false;
     private boolean mCalledSuper;
     private int mDecorChildCount;
 
@@ -402,20 +400,6 @@ public class VerticalViewPager extends ViewGroup {
             completeScroll(false);
             scrollTo(0, destY);
         }
-        
-//        if(mFirstLayout) {
-//            mCurItem = item;
-//            if(dispatchSelected && mOnPageChangeListener != null) {
-//                mOnPageChangeListener.onPageSelected(item);
-//            }
-//            if(dispatchSelected && mInternalPageChangeListener != null) {
-//                mInternalPageChangeListener.onPageScrollStateChanged(item);
-//            }
-//            requestLayout();
-//        } else {
-//            populate(item);
-//            scrollToItem(item, smoothScroll, velocity, dispatchSelected);
-//        }
     }
     
     private void scrollToItem(int item, boolean smoothScroll, int velocity,
@@ -960,8 +944,6 @@ public class VerticalViewPager extends ViewGroup {
             ii.offset = offset;
             offset += ii.heightFactor + marginOffset;
         }
-
-        mNeedCalculatePageOffsets = false;
     }
     
     public static class SavedState extends BaseSavedState {
@@ -1243,6 +1225,7 @@ public class VerticalViewPager extends ViewGroup {
         final int scrollY = getScrollY();
 
         int decorCount = 0;
+        /* TODO: Child Layou redraw，建議 override 在 CarouselPager 裡 */
         for (int i = 0; i < count; i++) {
             final View child = getChildAt(i);
             if (child.getVisibility() != GONE) {

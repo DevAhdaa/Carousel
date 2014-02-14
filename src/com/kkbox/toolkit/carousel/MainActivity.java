@@ -32,35 +32,6 @@ public class MainActivity extends Activity {
         MyPagerAdapter adapter = new MyPagerAdapter();
         mViewPager.setAdapter(adapter);
         mViewPager.setOffscreenPageLimit(3);
-        
-        mViewPager.setPageTransformer(true, new PageTransformer() {
-            
-            @SuppressLint("NewApi")
-            @Override
-            public void transformPage(View view, float position) {
-                float MIN_SCALE = 0.75f;
-                int pageWidth = view.getHeight();
-
-                if (position < -1) {
-                    view.setAlpha(0f);
-
-                } else if (position <= 0) {
-                    view.setAlpha(1f);
-                    view.setTranslationY(0f);
-                    view.setScaleX(1f);
-                    view.setScaleY(1f);
-                } else if (position <= 1) { 
-                    view.setAlpha(1 - position);
-                    view.setTranslationY(pageWidth * -position);
-                    float scaleFactor = MIN_SCALE + (1 - MIN_SCALE) * (1 - Math.abs(position));
-                    view.setScaleX(scaleFactor);
-                    view.setScaleY(scaleFactor);
-                    
-                } else {
-                    view.setAlpha(0);
-                }
-            }
-        });
     } 
     
     private class MyPagerAdapter extends CarouselAdapter {
